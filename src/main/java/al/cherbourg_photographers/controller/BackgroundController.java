@@ -6,10 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/backgrounds")
 @RestController
@@ -20,6 +17,10 @@ public class BackgroundController {
     @PostMapping("/save")
     public ResponseEntity<WorkshopBackgroundDTO> createBackground(@Valid @RequestBody WorkshopBackgroundDTO workshopBackgroundDTO) {
         return new ResponseEntity<>(workshopBackgroundService.createBackground(workshopBackgroundDTO), HttpStatus.CREATED);
+    }
+    @GetMapping("/search/{id}")
+    public ResponseEntity<WorkshopBackgroundDTO> getBackgroundById(@PathVariable(name="id") int id) {
+        return ResponseEntity.ok(workshopBackgroundService.getBackgroundById(id));
     }
 
 }

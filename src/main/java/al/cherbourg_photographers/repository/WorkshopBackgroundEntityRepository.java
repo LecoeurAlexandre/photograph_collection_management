@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WorkshopBackgroundEntityRepository extends CrudRepository<WorkshopBackgroundEntity, Long> {
+public interface WorkshopBackgroundEntityRepository extends CrudRepository<WorkshopBackgroundEntity, Integer> {
 }
