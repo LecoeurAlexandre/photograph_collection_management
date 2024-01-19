@@ -27,5 +27,9 @@ public class BackgroundController {
         WorkshopBackgroundDTO workshopBackgroundResponse = workshopBackgroundService.updateBackground(workshopBackgroundDTO, id);
         return new ResponseEntity<>(workshopBackgroundResponse, HttpStatus.OK);
     }
-
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteBackground(@PathVariable(name="id") int id) {
+        workshopBackgroundService.deleteBackgroundById(id);
+        return new ResponseEntity<>("Le fond a été correctement supprimé", HttpStatus.OK);
+    }
 }

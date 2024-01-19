@@ -41,16 +41,17 @@ public class WorkshopBackgroundServiceImpl implements WorkshopBackgroundService 
     @Override
     public WorkshopBackgroundDTO updateBackground(WorkshopBackgroundDTO workshopBackgroundDTO, int id) {
         WorkshopBackgroundEntity workshopBackgroundEntity = getWorkshopBackgroundByIdInDB(id);
-        workshopBackgroundEntity.setBackgroundDescription(workshopBackgroundEntity.getBackgroundDescription());
+        workshopBackgroundEntity.setBackgroundDescription(workshopBackgroundDTO.getBackgroundDescription());
         WorkshopBackgroundEntity updateBackground = workshopBackgroundEntityRepository.save(workshopBackgroundEntity);
-        return mapper.mapToWorkshopBackgroundDTO(workshopBackgroundEntity);
+        return mapper.mapToWorkshopBackgroundDTO(updateBackground);
     }
 
     @Override
     public void deleteBackgroundById(int id) {
-
+        WorkshopBackgroundEntity workshopBackgroundEntity = getWorkshopBackgroundByIdInDB(id);
+        workshopBackgroundEntityRepository.deleteById(workshopBackgroundEntity.getId());
     }
     private WorkshopBackgroundEntity getWorkshopBackgroundByIdInDB(int id) {
-        return workshopBackgroundEntityRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
+        return workshopBackgroundEntityRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Background", "id", id));
     }
 }
