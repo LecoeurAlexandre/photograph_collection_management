@@ -17,9 +17,7 @@ public class WorkshopBackgroundServiceImpl implements WorkshopBackgroundService 
     private final WorkshopBackgroundMapper mapper;
 
     @Autowired
-    public WorkshopBackgroundServiceImpl(
-            WorkshopBackgroundEntityRepository workshopBackgroundEntityRepository,
-            WorkshopBackgroundMapper mapper) {
+    public WorkshopBackgroundServiceImpl(WorkshopBackgroundEntityRepository workshopBackgroundEntityRepository, WorkshopBackgroundMapper mapper) {
         this.workshopBackgroundEntityRepository = workshopBackgroundEntityRepository;
         this.mapper = mapper;
     }
@@ -39,7 +37,7 @@ public class WorkshopBackgroundServiceImpl implements WorkshopBackgroundService 
 
     @Override
     public WorkshopBackgroundDTO getBackgroundById(int id) {
-         WorkshopBackgroundEntity workshopBackgroundEntity = getWorkshopBackgroundByIdInDB(id);
+        WorkshopBackgroundEntity workshopBackgroundEntity = getWorkshopBackgroundByIdInDB(id);
         return mapper.mapToWorkshopBackgroundDTO(workshopBackgroundEntity);
     }
 

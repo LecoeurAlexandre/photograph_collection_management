@@ -43,7 +43,7 @@ public class PhotographEntity {
     @Column(name = "date_acquisition")
     private LocalDate date;
 
-    @Column(name = "lieu_achat", length = 24)
+    @Column(name = "lieu_achat", length = 100)
     private String placeOfPurchase;
 
     @Column(name = "prix")
