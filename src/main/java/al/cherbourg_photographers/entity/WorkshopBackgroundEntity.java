@@ -3,6 +3,7 @@ package al.cherbourg_photographers.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name="fonds")
+@Table(name="fond")
 public class WorkshopBackgroundEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,5 +20,13 @@ public class WorkshopBackgroundEntity {
 
     @Column(name = "lib_fond_description", length = 255, nullable = false)
     private String backgroundDescription;
+
+    @ManyToMany
+    @JoinTable(
+            name = "fonds_adresse",
+            joinColumns = @JoinColumn(name = "fond_id"),
+            inverseJoinColumns = @JoinColumn(name = "adresse_id"))
+    private List<AddressEntity> address = new ArrayList<>();
+
 
 }

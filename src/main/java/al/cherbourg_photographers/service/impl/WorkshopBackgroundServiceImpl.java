@@ -10,14 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class WorkshopBackgroundServiceImpl implements WorkshopBackgroundService {
+    private final WorkshopBackgroundEntityRepository workshopBackgroundEntityRepository;
+    private final WorkshopBackgroundMapper mapper;
+
     @Autowired
-    private WorkshopBackgroundEntityRepository workshopBackgroundEntityRepository;
-    @Autowired
-    private WorkshopBackgroundMapper mapper;
+    public WorkshopBackgroundServiceImpl(
+            WorkshopBackgroundEntityRepository workshopBackgroundEntityRepository,
+            WorkshopBackgroundMapper mapper) {
+        this.workshopBackgroundEntityRepository = workshopBackgroundEntityRepository;
+        this.mapper = mapper;
+    }
 
     @Override
     public WorkshopBackgroundDTO createBackground(WorkshopBackgroundDTO workshopBackgroundDTO) {
