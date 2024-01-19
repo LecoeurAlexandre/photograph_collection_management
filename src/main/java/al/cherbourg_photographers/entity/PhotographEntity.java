@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -50,4 +52,7 @@ public class PhotographEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fond_id")
     private WorkshopBackgroundEntity background;
+
+    @ManyToMany(mappedBy = "photographs")
+    private List<ViewEntity> views = new ArrayList<>();
 }
