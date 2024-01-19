@@ -40,7 +40,10 @@ public class WorkshopBackgroundServiceImpl implements WorkshopBackgroundService 
 
     @Override
     public WorkshopBackgroundDTO updateBackground(WorkshopBackgroundDTO workshopBackgroundDTO, int id) {
-        return null;
+        WorkshopBackgroundEntity workshopBackgroundEntity = getWorkshopBackgroundByIdInDB(id);
+        workshopBackgroundEntity.setBackgroundDescription(workshopBackgroundEntity.getBackgroundDescription());
+        WorkshopBackgroundEntity updateBackground = workshopBackgroundEntityRepository.save(workshopBackgroundEntity);
+        return mapper.mapToWorkshopBackgroundDTO(workshopBackgroundEntity);
     }
 
     @Override

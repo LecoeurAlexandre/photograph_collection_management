@@ -22,5 +22,10 @@ public class BackgroundController {
     public ResponseEntity<WorkshopBackgroundDTO> getBackgroundById(@PathVariable(name="id") int id) {
         return ResponseEntity.ok(workshopBackgroundService.getBackgroundById(id));
     }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<WorkshopBackgroundDTO> updateBackground(@Valid @RequestBody WorkshopBackgroundDTO workshopBackgroundDTO, @PathVariable(name="id") int id) {
+        WorkshopBackgroundDTO workshopBackgroundResponse = workshopBackgroundService.updateBackground(workshopBackgroundDTO, id);
+        return new ResponseEntity<>(workshopBackgroundResponse, HttpStatus.OK);
+    }
 
 }
