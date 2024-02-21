@@ -1,9 +1,7 @@
 package al.cherbourg_photographers.utils;
 
 import al.cherbourg_photographers.dto.ViewDTO;
-import al.cherbourg_photographers.dto.WorkshopBackgroundDTO;
 import al.cherbourg_photographers.entity.ViewEntity;
-import al.cherbourg_photographers.entity.WorkshopBackgroundEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
