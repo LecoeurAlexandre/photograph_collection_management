@@ -55,4 +55,8 @@ public class PhotographEntity {
 
     @ManyToMany(mappedBy = "photographs")
     private List<ViewEntity> views = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "format_id")
+    private FormatEntity format;
 }
