@@ -34,7 +34,7 @@ public class ViewController {
         return new ResponseEntity<>(viewResponse, HttpStatus.OK);
     }
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteBackground(@PathVariable(name="id") int id) {
+    public ResponseEntity<String> deleteView(@PathVariable(name="id") int id) {
         viewService.deleteViewById(id);
         return new ResponseEntity<>("La vue a été correctement supprimée", HttpStatus.OK);
     }
