@@ -24,6 +24,12 @@ public class FormatServiceImpl implements FormatService {
 
     @Override
     public FormatDTO createFormat(FormatDTO formatDTO) {
+        if (formatEntityRepository.existsByFormatName(formatDTO.getFormatName())) {
+            throw new IllegalArgumentException("Le nom de format spécifié existe déjà.");
+        }
+        if (formatEntityRepository.existsByFormatSize(formatDTO.getFormatSize())) {
+            throw new IllegalArgumentException("La taille de format spécifiée existe déjà.");
+        }
         FormatEntity newFormat = formatEntityRepository.save(mapper.mapToFormatEntity(formatDTO));
         return mapper.mapToFormatDTO(newFormat);
     }

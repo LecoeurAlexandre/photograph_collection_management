@@ -18,9 +18,9 @@ public class FormatEntity {
     @Column(name = "format_id")
     private int id;
 
-    @Column(name = "lib_format", length = 30)
+    @Column(name = "lib_format", length = 30, unique = true)
     private String formatName;
 
-    @Column(name = "size_format", nullable = false)
+    @Column(name = "size_format", nullable = false, unique = true)
     private String formatSize;
 }

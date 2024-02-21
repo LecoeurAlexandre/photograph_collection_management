@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FormatEntityRepository extends CrudRepository<FormatEntity, Integer> {
+    boolean existsByFormatName(String formatName);
+    boolean existsByFormatSize(String formatSize);
 }
