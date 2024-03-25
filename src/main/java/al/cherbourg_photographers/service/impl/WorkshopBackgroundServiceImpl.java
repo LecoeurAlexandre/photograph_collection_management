@@ -6,7 +6,6 @@ import al.cherbourg_photographers.exception.ResourceNotFoundException;
 import al.cherbourg_photographers.repository.WorkshopBackgroundEntityRepository;
 import al.cherbourg_photographers.service.WorkshopBackgroundService;
 import al.cherbourg_photographers.utils.WorkshopBackgroundMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +15,6 @@ public class WorkshopBackgroundServiceImpl implements WorkshopBackgroundService 
     private final WorkshopBackgroundEntityRepository workshopBackgroundEntityRepository;
     private final WorkshopBackgroundMapper mapper;
 
-    @Autowired
     public WorkshopBackgroundServiceImpl(WorkshopBackgroundEntityRepository workshopBackgroundEntityRepository, WorkshopBackgroundMapper mapper) {
         this.workshopBackgroundEntityRepository = workshopBackgroundEntityRepository;
         this.mapper = mapper;

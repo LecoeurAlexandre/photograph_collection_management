@@ -6,7 +6,6 @@ import al.cherbourg_photographers.exception.ResourceNotFoundException;
 import al.cherbourg_photographers.repository.FormatEntityRepository;
 import al.cherbourg_photographers.service.FormatService;
 import al.cherbourg_photographers.utils.FormatMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 public class FormatServiceImpl implements FormatService {
     private final FormatEntityRepository formatEntityRepository;
     private final FormatMapper mapper;
-    @Autowired
+
     public FormatServiceImpl(FormatEntityRepository formatEntityRepository, FormatMapper mapper) {
         this.formatEntityRepository = formatEntityRepository;
         this.mapper = mapper;

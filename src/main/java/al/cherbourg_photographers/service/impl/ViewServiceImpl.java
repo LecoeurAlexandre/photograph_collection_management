@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class ViewServiceImpl implements ViewService {
     private final ViewEntityRepository viewEntityRepository;
     private final ViewMapper mapper;
-    @Autowired
+
     public ViewServiceImpl(ViewEntityRepository viewEntityRepository, ViewMapper mapper) {
         this.viewEntityRepository = viewEntityRepository;
         this.mapper = mapper;
