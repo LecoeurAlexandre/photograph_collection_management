@@ -30,6 +30,6 @@ public class BackgroundController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteBackground(@PathVariable(name="id") int id) {
         workshopBackgroundService.deleteBackgroundById(id);
-        return new ResponseEntity<>("Le fond a été correctement supprimé", HttpStatus.OK);
+        return new ResponseEntity<>("Le fond a été correctement supprimé.", HttpStatus.OK);
     }
 }
