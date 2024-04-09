@@ -36,7 +36,7 @@ public class FormatServiceImpl implements FormatService {
     @Override
     public List<FormatDTO> getAllFormats() {
         List<FormatEntity> formats = (List<FormatEntity>)formatEntityRepository.findAll();
-        List<FormatDTO> formatsDTOList = formats.stream().map(view->mapper.mapToFormatDTO(view)).collect(Collectors.toList());
+        List<FormatDTO> formatsDTOList = formats.stream().map(format->mapper.mapToFormatDTO(format)).collect(Collectors.toList());
         return formatsDTOList;
     }
 
