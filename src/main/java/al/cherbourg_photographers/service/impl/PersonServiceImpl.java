@@ -24,11 +24,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public PersonDTO createPerson(PersonDTO personDTO) {
-        personDTO.setLastname(StringHandler.capitalizeFirstLetters(personDTO.getLastname()));
-        personDTO.setFirstname(StringHandler.capitalizeFirstLetters(personDTO.getFirstname()));
-        personDTO.setBirthPlace(StringHandler.capitalizeFirstLetters(personDTO.getBirthPlace()));
-        personDTO.setDeathPlace(StringHandler.capitalizeFirstLetters(personDTO.getDeathPlace()));
-        personDTO.setDeathPlace(StringHandler.capitalizeFirstLetters(personDTO.getDeathPlace()));
+        capitalizePersonAttributes(personDTO);
         PersonEntity newPerson = personEntityRepository.save(mapper.mapToPersonEntity(personDTO));
         return mapper.mapToPersonDTO(newPerson);
     }
@@ -50,12 +46,9 @@ public class PersonServiceImpl implements PersonService {
     public PersonDTO updatePerson(PersonDTO personDTO, int id) {
         PersonEntity personEntity = getPersonByIdInDB(id);
         personEntity.setGender(personDTO.isGender());
-        personEntity.setLastname(StringHandler.capitalizeFirstLetters(personDTO.getLastname()));
-        personEntity.setFirstname(StringHandler.capitalizeFirstLetters(personDTO.getFirstname()));
+        capitalizePersonAttributes(personDTO);
         personEntity.setBirthdate(personDTO.getBirthdate());
         personEntity.setDeathdate(personDTO.getDeathdate());
-        personEntity.setBirthPlace(StringHandler.capitalizeFirstLetters(personDTO.getBirthPlace()));
-        personEntity.setDeathPlace(StringHandler.capitalizeFirstLetters(personDTO.getDeathPlace()));
         personEntity.setJob(personDTO.getJob());
         PersonEntity updatedPerson = personEntityRepository.save(personEntity);
         return mapper.mapToPersonDTO(updatedPerson);
@@ -69,5 +62,14 @@ public class PersonServiceImpl implements PersonService {
 
     private PersonEntity getPersonByIdInDB(int id) {
         return personEntityRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person", "id", id));
+    }
+
+    private PersonDTO capitalizePersonAttributes(PersonDTO personDTO) {
+        personDTO.setLastname(StringHandler.capitalizeFirstLetters(personDTO.getLastname()));
+        personDTO.setFirstname(StringHandler.capitalizeFirstLetters(personDTO.getFirstname()));
+        personDTO.setBirthPlace(StringHandler.capitalizeFirstLetters(personDTO.getBirthPlace()));
+        personDTO.setDeathPlace(StringHandler.capitalizeFirstLetters(personDTO.getDeathPlace()));
+        personDTO.setDeathPlace(StringHandler.capitalizeFirstLetters(personDTO.getDeathPlace()));
+        return personDTO;
     }
 }

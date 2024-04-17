@@ -27,6 +27,9 @@ public class PersonEntity {
     @Column(name = "lib_patronyme", length = 50)
     private String lastname;
 
+    @Column(name = "lib_nom_naissance", length = 50)
+    private String maidenName;
+
     @Column(name = "lib_prenom", length = 50)
     private String firstname;
 

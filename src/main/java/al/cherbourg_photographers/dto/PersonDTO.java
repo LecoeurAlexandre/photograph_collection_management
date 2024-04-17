@@ -22,6 +22,9 @@ public class PersonDTO {
     @Size(max = 50, message = "Le patronyme ne doit pas dépasser 50 caractères.")
     private String lastname;
 
+    @Size(max = 50, message = "Le nom de jeune fille ne doit pas dépasser 50 caractères.")
+    private String maidenName;
+
     @Size(max = 50, message = "Le prénom ne doit pas dépasser 50 caractères.")
     private String firstname;
 
