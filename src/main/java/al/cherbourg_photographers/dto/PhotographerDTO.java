@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Setter
 public class PhotographerDTO extends PersonDTO {
 
-    public PhotographerDTO(int id, @NotNull boolean gender, @Size(max = 50, message = "Le patronyme ne doit pas dépasser 50 caractères.") String lastname, @Size(max = 50, message = "Le nom de jeune fille ne doit pas dépasser 50 caractères.") String maidenName, @Size(max = 50, message = "Le prénom ne doit pas dépasser 50 caractères.") String firstname, LocalDate birthdate, LocalDate deathdate, @Size(max = 50, message = "Le lieu de naissance ne doit pas dépasser 50 caractères.") String birthPlace, @Size(max = 50, message = "Le lieu de décès ne doit pas dépasser 50 caractères.") String deathPlace, @Size(max = 50, message = "L'activité professionnelle ne doit pas dépasser 50 caractères.") String job, String startDate, String endDate) {
+    public PhotographerDTO(int id, @NotNull boolean gender, @Size(max = 50, message = "Le patronyme ne doit pas dépasser 50 caractères.") String lastname, @Size(max = 50, message = "Le nom de jeune fille ne doit pas dépasser 50 caractères.") String maidenName, String firstname, LocalDate birthdate, LocalDate deathdate, @Size(max = 50, message = "Le lieu de naissance ne doit pas dépasser 50 caractères.") String birthPlace, @Size(max = 50, message = "Le lieu de décès ne doit pas dépasser 50 caractères.") String deathPlace, @Size(max = 50, message = "L'activité professionnelle ne doit pas dépasser 50 caractères.") String job, String startDate, String endDate) {
         super(id, gender, lastname, maidenName, firstname, birthdate, deathdate, birthPlace, deathPlace, job);
         this.startDate = startDate;
         this.endDate = endDate;

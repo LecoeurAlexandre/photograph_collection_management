@@ -12,6 +12,8 @@ import al.cherbourg_photographers.utils.PhotographerMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class PhotographerServiceImpl implements PhotographerService {
@@ -36,7 +38,31 @@ public class PhotographerServiceImpl implements PhotographerService {
 
     @Override
     public List<PhotographerDTO> getAllPhotographers() {
-        return null;
+        List<PhotographerEntity> photographers = (List<PhotographerEntity>) photographerEntityRepository.findAll();
+        return photographers.stream()
+                .map(photographerEntity -> {
+                    PersonEntity personEntity = personEntityRepository.findById(photographerEntity.getId()).orElse(null);
+                    if (personEntity != null) {
+                        return new PhotographerDTO(
+                                personEntity.getId(),
+                                personEntity.isGender(),
+                                personEntity.getLastname(),
+                                personEntity.getMaidenName(),
+                                personEntity.getFirstname(),
+                                personEntity.getBirthdate(),
+                                personEntity.getDeathdate(),
+                                personEntity.getBirthPlace(),
+                                personEntity.getDeathPlace(),
+                                personEntity.getJob(),
+                                photographerEntity.getStartDate(),
+                                photographerEntity.getEndDate()
+                        );
+                    } else {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull) // Filtrer les résultats nulls
+                .collect(Collectors.toList());
     }
 
     @Override
