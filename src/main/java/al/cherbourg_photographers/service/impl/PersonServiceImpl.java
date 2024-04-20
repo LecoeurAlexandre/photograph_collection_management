@@ -47,6 +47,11 @@ public class PersonServiceImpl implements PersonService {
         PersonEntity personEntity = getPersonByIdInDB(id);
         personEntity.setGender(personDTO.isGender());
         capitalizePersonAttributes(personDTO);
+        personEntity.setLastname(personDTO.getLastname());
+        personEntity.setMaidenName(personDTO.getMaidenName());
+        personEntity.setFirstname(personDTO.getFirstname());
+        personEntity.setBirthPlace(personDTO.getBirthPlace());
+        personEntity.setDeathPlace(personDTO.getDeathPlace());
         personEntity.setBirthdate(personDTO.getBirthdate());
         personEntity.setDeathdate(personDTO.getDeathdate());
         personEntity.setJob(personDTO.getJob());
@@ -67,9 +72,10 @@ public class PersonServiceImpl implements PersonService {
     private PersonDTO capitalizePersonAttributes(PersonDTO personDTO) {
         personDTO.setLastname(StringHandler.capitalizeFirstLetters(personDTO.getLastname()));
         personDTO.setFirstname(StringHandler.capitalizeFirstLetters(personDTO.getFirstname()));
+        personDTO.setMaidenName(StringHandler.capitalizeFirstLetters(personDTO.getMaidenName()));
         personDTO.setBirthPlace(StringHandler.capitalizeFirstLetters(personDTO.getBirthPlace()));
         personDTO.setDeathPlace(StringHandler.capitalizeFirstLetters(personDTO.getDeathPlace()));
-        personDTO.setDeathPlace(StringHandler.capitalizeFirstLetters(personDTO.getDeathPlace()));
+        personDTO.setJob(StringHandler.capitalizeFirstLetters(personDTO.getJob()));
         return personDTO;
     }
 }

@@ -27,4 +27,20 @@ public class PhotographerController {
     public ResponseEntity<List<PhotographerDTO>> getAllPhotographers() {
         return ResponseEntity.ok(photographerService.getAllPhotographers());
     }
+
+    @GetMapping("/search/{id}")
+    public ResponseEntity getPersonById(@PathVariable(name= "id") int id) {
+        return ResponseEntity.ok(photographerService.getPhotographerById(id));
+    }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<PhotographerDTO> updatePhotographer(@Valid @RequestBody PhotographerDTO photographerDTO, @PathVariable(name="id") int id) {
+        PhotographerDTO photographerResponse = photographerService.updatePhotographer(photographerDTO, id);
+        return new ResponseEntity<>(photographerResponse, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deletePerson(@PathVariable(name="id") int id) {
+        photographerService.deletePhotographerById(id);
+        return new ResponseEntity<>("Le photographe a été correctement supprimé", HttpStatus.OK);
+    }
 }

@@ -17,7 +17,7 @@ import java.time.LocalDate;
 public class PersonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "production_id")
+    @Column(name = "personne_id")
     private int id;
 
     // 0 pour homme, 1 pour femme
