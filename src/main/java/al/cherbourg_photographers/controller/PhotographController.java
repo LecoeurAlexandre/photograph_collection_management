@@ -25,4 +25,8 @@ public class PhotographController {
     public ResponseEntity<List<PhotographDTO>> getLast10Photographs() {
         return ResponseEntity.ok(photographService.getLast10Photographs());
     }
+    @GetMapping("/search/{id}")
+    public ResponseEntity<PhotographDTO> getPhotographById(@PathVariable(name= "id") int id) {
+        return ResponseEntity.ok(photographService.getPhotographById(id));
+    }
 }

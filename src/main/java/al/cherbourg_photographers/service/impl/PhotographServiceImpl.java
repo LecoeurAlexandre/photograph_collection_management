@@ -2,6 +2,7 @@ package al.cherbourg_photographers.service.impl;
 
 import al.cherbourg_photographers.dto.PhotographDTO;
 import al.cherbourg_photographers.entity.PhotographEntity;
+import al.cherbourg_photographers.exception.ResourceNotFoundException;
 import al.cherbourg_photographers.repository.PhotographEntityRepository;
 import al.cherbourg_photographers.service.PhotographService;
 import al.cherbourg_photographers.utils.GenericMapper;
@@ -44,7 +45,8 @@ public class PhotographServiceImpl implements PhotographService {
 
     @Override
     public PhotographDTO getPhotographById(int id) {
-        return null;
+        PhotographEntity photographEntity = getPhotographByIdInDB(id);
+        return mapper.mapToDTO(photographEntity, PhotographDTO.class);
     }
 
     @Override
@@ -55,5 +57,9 @@ public class PhotographServiceImpl implements PhotographService {
     @Override
     public void deletePhotographById(int id) {
 
+    }
+
+    private PhotographEntity getPhotographByIdInDB(int id) {
+        return photographEntityRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person", "id", id));
     }
 }
