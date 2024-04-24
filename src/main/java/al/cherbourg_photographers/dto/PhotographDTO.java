@@ -1,6 +1,7 @@
 package al.cherbourg_photographers.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,9 @@ public class PhotographDTO {
     @Size(max = 255, message = "La description ne doit pas dépasser 255 caractères.")
     private String photoDescription;
 
+    @Size(max = 1000, message = "L'inscription manuscrite ne doit pas dépasser 1000 caractères.")
+    private String inscription;
+
     @NotEmpty
     @Size(max = 100, message = "L'URL ne doit pas dépasser 100 caractères.")
     private String urlRecto;
@@ -33,14 +37,15 @@ public class PhotographDTO {
     @Size(max = 100, message = "L'URL ne doit pas dépasser 100 caractères.")
     private String urlVerso;
 
-    @NotEmpty
+    @NotNull
     private boolean orientation;
 
     @NotEmpty
     @Size(min = 4, max = 9, message = "La datation doit contenir entre 4 et 9 caractères.")
     private String datation;
 
-    private LocalDate date;
+    @Size(min = 4, max = 9, message = "La date d'achat doit contenir entre 4 et 9 caractères.")
+    private String purchaseDate;
 
     @Size(max = 100, message = "Le lieu d'achat ne doit pas dépasser 100 caractères.")
     private String placeOfPurchase;

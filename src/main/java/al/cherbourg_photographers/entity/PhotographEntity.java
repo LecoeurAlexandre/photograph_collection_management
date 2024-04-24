@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @Getter
 @Table(name="photographie")
-public class PhotographEntity {
+public class PhotographEntity extends AbstractPersistent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "photographie_id")
@@ -27,6 +27,9 @@ public class PhotographEntity {
 
     @Column(name = "lib_photo_description", nullable = false, length = 255)
     private String photoDescription;
+
+    @Column(name = "lib_inscription", length = 1000)
+    private String inscription;
 
     @Column(name = "url_recto", nullable = false, length = 100)
     private String urlRecto;
@@ -41,7 +44,7 @@ public class PhotographEntity {
     private String datation;
 
     @Column(name = "date_acquisition")
-    private LocalDate date;
+    private String purchaseDate;
 
     @Column(name = "lieu_achat", length = 100)
     private String placeOfPurchase;
