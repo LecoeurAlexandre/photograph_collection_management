@@ -56,7 +56,8 @@ public class PhotographServiceImpl implements PhotographService {
 
     @Override
     public void deletePhotographById(int id) {
-
+        PhotographEntity photographEntity = getPhotographByIdInDB(id);
+        photographEntityRepository.deleteById(photographEntity.getId());
     }
 
     private PhotographEntity getPhotographByIdInDB(int id) {

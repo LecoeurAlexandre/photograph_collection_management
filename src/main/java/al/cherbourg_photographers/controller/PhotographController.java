@@ -29,4 +29,9 @@ public class PhotographController {
     public ResponseEntity<PhotographDTO> getPhotographById(@PathVariable(name= "id") int id) {
         return ResponseEntity.ok(photographService.getPhotographById(id));
     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deletePhotograph(@PathVariable(name="id") int id) {
+        photographService.deletePhotographById(id);
+        return new ResponseEntity<>("La photographie a été correctement supprimée", HttpStatus.OK);
+    }
 }
