@@ -9,6 +9,7 @@ import al.cherbourg_photographers.utils.PersonMapper;
 import al.cherbourg_photographers.utils.StringHandler;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +26,12 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public PersonDTO createPerson(PersonDTO personDTO) {
         capitalizePersonAttributes(personDTO);
-        PersonEntity newPerson = personEntityRepository.save(mapper.mapToPersonEntity(personDTO));
-        return mapper.mapToPersonDTO(newPerson);
+
+        PersonEntity newPerson = mapper.mapToPersonEntity(personDTO);
+        newPerson.setCreationDate(LocalDateTime.now());
+
+        PersonEntity savedPerson = personEntityRepository.save(newPerson);
+        return mapper.mapToPersonDTO(savedPerson);
     }
 
     @Override
@@ -55,6 +60,7 @@ public class PersonServiceImpl implements PersonService {
         personEntity.setBirthdate(personDTO.getBirthdate());
         personEntity.setDeathdate(personDTO.getDeathdate());
         personEntity.setJob(personDTO.getJob());
+        personEntity.setUpdateDate(LocalDateTime.now());
         PersonEntity updatedPerson = personEntityRepository.save(personEntity);
         return mapper.mapToPersonDTO(updatedPerson);
     }
@@ -75,7 +81,7 @@ public class PersonServiceImpl implements PersonService {
         personDTO.setMaidenName(StringHandler.capitalizeFirstLetters(personDTO.getMaidenName()));
         personDTO.setBirthPlace(StringHandler.capitalizeFirstLetters(personDTO.getBirthPlace()));
         personDTO.setDeathPlace(StringHandler.capitalizeFirstLetters(personDTO.getDeathPlace()));
-        personDTO.setJob(StringHandler.capitalizeFirstLetters(personDTO.getJob()));
+        personDTO.setJob(StringHandler.capitalizeOnlyOneFirstLetter(personDTO.getJob()));
         return personDTO;
     }
 }

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @Table(name="personne")
-public class PersonEntity {
+public class PersonEntity extends AbstractPersistent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "personne_id")

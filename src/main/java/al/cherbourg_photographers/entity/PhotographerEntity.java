@@ -12,10 +12,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(name="photographe")
-public class PhotographerEntity {
-    @Id
-    @Column(name = "photographer_id", nullable = false)
-    private int id;
+@PrimaryKeyJoinColumn(name = "photographer_id")
+public class PhotographerEntity extends PersonEntity {
 
     @Column(name = "date_debut", length = 20)
     private String startDate;

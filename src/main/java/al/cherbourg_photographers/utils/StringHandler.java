@@ -13,6 +13,9 @@ public class StringHandler {
         excludedWords.add("du");
     }
     public static String capitalizeFirstLetters(String text) {
+        if (text == null) {
+            return "";
+        }
         String[] words = text.split("(?<=[\\s-])|(?=[\\s-])"); // séparation des mots à chaque espace ou tiret
 
         StringBuilder result = new StringBuilder();
@@ -32,5 +35,10 @@ public class StringHandler {
             }
         }
         return result.toString();
+    }
+    public static String capitalizeOnlyOneFirstLetter (String word) {
+        String firstLetter = word.substring(0,1).toUpperCase();
+        String otherLetters = word.substring(1, word.length());
+        return firstLetter + otherLetters;
     }
 }

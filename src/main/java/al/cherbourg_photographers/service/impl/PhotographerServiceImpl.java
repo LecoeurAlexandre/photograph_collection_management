@@ -11,6 +11,7 @@ import al.cherbourg_photographers.utils.PersonMapper;
 import al.cherbourg_photographers.utils.PhotographerMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -31,10 +32,10 @@ public class PhotographerServiceImpl implements PhotographerService {
 
     @Override
     public PhotographerDTO createPhotographer(PhotographerDTO photographerDTO) {
-        PersonDTO personDTO = personService.createPerson(personMapper.mapToPersonDTO(photographerDTO));
-        photographerDTO.setId(personDTO.getId());
-        PhotographerEntity newPhotographerEntity = photographerEntityRepository.save(photographerMapper.mapToEntity(photographerDTO));
-        return new PhotographerDTO(personDTO.getId(), personDTO.isGender(), personDTO.getLastname(), personDTO.getMaidenName(), personDTO.getFirstname(), personDTO.getBirthdate(), personDTO.getDeathdate(), personDTO.getBirthPlace(), personDTO.getDeathPlace(), personDTO.getJob(), newPhotographerEntity.getStartDate(), newPhotographerEntity.getEndDate());
+        PhotographerEntity newPhotographerEntity = photographerMapper.mapToEntity(photographerDTO);
+        newPhotographerEntity.setCreationDate(LocalDateTime.now());
+        PhotographerEntity savedPhotographer = photographerEntityRepository.save(newPhotographerEntity);
+        return photographerMapper.mapToDTO(savedPhotographer);
     }
 
     @Override
@@ -91,6 +92,7 @@ public class PhotographerServiceImpl implements PhotographerService {
         PhotographerEntity photographerEntity = getPhotographerByIdInDB(id);
         photographerEntity.setStartDate(photographerDTO.getStartDate());
         photographerEntity.setEndDate(photographerDTO.getEndDate());
+        photographerEntity.setUpdateDate(LocalDateTime.now());
         PhotographerEntity updatedPhotographer = photographerEntityRepository.save(photographerEntity);
         return new PhotographerDTO(updatedPerson.getId(),
                 updatedPerson.isGender(),
