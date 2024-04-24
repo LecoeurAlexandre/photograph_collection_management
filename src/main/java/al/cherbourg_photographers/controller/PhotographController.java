@@ -5,10 +5,9 @@ import al.cherbourg_photographers.service.PhotographService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/photographs")
@@ -21,5 +20,9 @@ public class PhotographController {
     @PostMapping("/save")
     public ResponseEntity<PhotographDTO> createPhotograph(@Valid @RequestBody PhotographDTO photographDTO) {
         return new ResponseEntity<>(photographService.createPhotograph(photographDTO), HttpStatus.CREATED);
+    }
+    @GetMapping("/search10")
+    public ResponseEntity<List<PhotographDTO>> getLast10Photographs() {
+        return ResponseEntity.ok(photographService.getLast10Photographs());
     }
 }

@@ -44,7 +44,6 @@ public class PhotographDTO {
     @Size(min = 4, max = 9, message = "La datation doit contenir entre 4 et 9 caractères.")
     private String datation;
 
-    @Size(min = 4, max = 9, message = "La date d'achat doit contenir entre 4 et 9 caractères.")
     private String purchaseDate;
 
     @Size(max = 100, message = "Le lieu d'achat ne doit pas dépasser 100 caractères.")
