@@ -29,6 +29,11 @@ public class PhotographController {
     public ResponseEntity<PhotographDTO> getPhotographById(@PathVariable(name= "id") int id) {
         return ResponseEntity.ok(photographService.getPhotographById(id));
     }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<PhotographDTO> updatePhotograph(@Valid @PathVariable(name= "id") int id, @RequestBody PhotographDTO photographDTO) {
+        PhotographDTO photographResponse = photographService.updatePhotograph(photographDTO, id);
+        return new ResponseEntity<>(photographResponse, HttpStatus.OK);
+    }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deletePhotograph(@PathVariable(name="id") int id) {
         photographService.deletePhotographById(id);

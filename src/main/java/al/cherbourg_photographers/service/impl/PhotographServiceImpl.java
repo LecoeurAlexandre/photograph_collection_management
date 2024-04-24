@@ -51,7 +51,20 @@ public class PhotographServiceImpl implements PhotographService {
 
     @Override
     public PhotographDTO updatePhotograph(PhotographDTO photographDTO, int id) {
-        return null;
+        PhotographEntity photographEntity = getPhotographByIdInDB(id);
+        photographEntity.setFileNumber(photographDTO.getFileNumber());
+        photographEntity.setPhotoDescription(photographDTO.getPhotoDescription());
+        photographEntity.setInscription(photographDTO.getInscription());
+        photographEntity.setUrlRecto(photographDTO.getUrlRecto());
+        photographEntity.setUrlVerso(photographDTO.getUrlVerso());
+        photographEntity.setOrientation(photographDTO.isOrientation());
+        photographEntity.setDatation(photographDTO.getDatation());
+        photographEntity.setPurchaseDate(photographDTO.getPurchaseDate());
+        photographEntity.setPlaceOfPurchase(photographDTO.getPlaceOfPurchase());
+        photographEntity.setPrice(photographDTO.getPrice());
+        photographEntity.setUpdateDate(LocalDateTime.now());
+        PhotographEntity updatedPhotograph = photographEntityRepository.save(photographEntity);
+        return mapper.mapToDTO(updatedPhotograph, PhotographDTO.class);
     }
 
     @Override
