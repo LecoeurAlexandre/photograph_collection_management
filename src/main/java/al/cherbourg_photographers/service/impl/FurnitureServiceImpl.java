@@ -5,7 +5,7 @@ import al.cherbourg_photographers.entity.FurnitureEntity;
 import al.cherbourg_photographers.exception.ResourceNotFoundException;
 import al.cherbourg_photographers.repository.FurnitureEntityRepository;
 import al.cherbourg_photographers.service.FurnitureService;
-import al.cherbourg_photographers.utils.FurnitureMapper;
+import al.cherbourg_photographers.utils.GenericMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,17 +13,17 @@ import java.util.List;
 @Service
 public class FurnitureServiceImpl implements FurnitureService {
     private final FurnitureEntityRepository furnitureEntityRepository;
-    private final FurnitureMapper mapper;
+    private final GenericMapper<FurnitureEntity, FurnitureDTO> mapper;
 
-    public FurnitureServiceImpl(FurnitureEntityRepository furnitureEntityRepository, FurnitureMapper mapper) {
+    public FurnitureServiceImpl(FurnitureEntityRepository furnitureEntityRepository, GenericMapper mapper) {
         this.furnitureEntityRepository = furnitureEntityRepository;
         this.mapper = mapper;
     }
 
     @Override
     public FurnitureDTO createFurniture(FurnitureDTO furnitureDTO) {
-        FurnitureEntity newFurniture = furnitureEntityRepository.save(mapper.mapToFurnitureEntity(furnitureDTO));
-        return mapper.mapToFurnitureDTO(newFurniture);
+        FurnitureEntity newFurniture = furnitureEntityRepository.save((FurnitureEntity) mapper.mapToEntity(furnitureDTO, FurnitureEntity.class));
+        return mapper.mapToDTO(newFurniture, FurnitureDTO.class);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class FurnitureServiceImpl implements FurnitureService {
     @Override
     public FurnitureDTO getFurnitureById(int id) {
         FurnitureEntity furnitureEntity = getFurnitureByIdInDB(id);
-        return mapper.mapToFurnitureDTO(furnitureEntity);
+        return mapper.mapToDTO(furnitureEntity, FurnitureDTO.class);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class FurnitureServiceImpl implements FurnitureService {
         furnitureEntity.setFurnitureName(furnitureDTO.getFurnitureName());
         furnitureEntity.setFurnitureDescription(furnitureDTO.getFurnitureDescription());
         FurnitureEntity updateFurniture = furnitureEntityRepository.save(furnitureEntity);
-        return mapper.mapToFurnitureDTO(updateFurniture);
+        return mapper.mapToDTO(updateFurniture, FurnitureDTO.class);
     }
 
     @Override

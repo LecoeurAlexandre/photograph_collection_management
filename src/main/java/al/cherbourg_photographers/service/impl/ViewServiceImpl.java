@@ -5,8 +5,7 @@ import al.cherbourg_photographers.entity.ViewEntity;
 import al.cherbourg_photographers.exception.ResourceNotFoundException;
 import al.cherbourg_photographers.repository.ViewEntityRepository;
 import al.cherbourg_photographers.service.ViewService;
-import al.cherbourg_photographers.utils.ViewMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import al.cherbourg_photographers.utils.GenericMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,30 +14,30 @@ import java.util.stream.Collectors;
 @Service
 public class ViewServiceImpl implements ViewService {
     private final ViewEntityRepository viewEntityRepository;
-    private final ViewMapper mapper;
+    private final GenericMapper<ViewEntity, ViewDTO> mapper;
 
-    public ViewServiceImpl(ViewEntityRepository viewEntityRepository, ViewMapper mapper) {
+    public ViewServiceImpl(ViewEntityRepository viewEntityRepository, GenericMapper<ViewEntity, ViewDTO> mapper) {
         this.viewEntityRepository = viewEntityRepository;
         this.mapper = mapper;
     }
 
     @Override
     public ViewDTO createView(ViewDTO viewDTO) {
-        ViewEntity newView = viewEntityRepository.save(mapper.mapToViewEntity(viewDTO));
-        return mapper.mapToViewDTO(newView);
+        ViewEntity newView = viewEntityRepository.save(mapper.mapToEntity(viewDTO, ViewEntity.class));
+        return mapper.mapToDTO(newView, ViewDTO.class);
     }
 
     @Override
     public List<ViewDTO> getAllViews() {
         List<ViewEntity> views = (List<ViewEntity>) viewEntityRepository.findAll();
-        List<ViewDTO> viewsDTOList = views.stream().map(view->mapper.mapToViewDTO(view)).collect(Collectors.toList());
+        List<ViewDTO> viewsDTOList = views.stream().map(view->mapper.mapToDTO(view, ViewDTO.class)).collect(Collectors.toList());
         return viewsDTOList;
     }
 
     @Override
     public ViewDTO getViewById(int id) {
         ViewEntity viewEntity = getViewByIdInDB(id);
-        return mapper.mapToViewDTO(viewEntity);
+        return mapper.mapToDTO(viewEntity, ViewDTO.class);
     }
 
     @Override
@@ -46,7 +45,7 @@ public class ViewServiceImpl implements ViewService {
         ViewEntity viewEntity = getViewByIdInDB(id);
         viewEntity.setMonumentName(viewDTO.getMonumentName());
         ViewEntity updateView = viewEntityRepository.save(viewEntity);
-        return mapper.mapToViewDTO(updateView);
+        return mapper.mapToDTO(updateView, ViewDTO.class);
     }
 
     @Override

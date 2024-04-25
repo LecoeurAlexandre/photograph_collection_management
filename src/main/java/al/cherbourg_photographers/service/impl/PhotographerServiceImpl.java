@@ -7,8 +7,7 @@ import al.cherbourg_photographers.exception.ResourceNotFoundException;
 import al.cherbourg_photographers.repository.PhotographerEntityRepository;
 import al.cherbourg_photographers.service.PersonService;
 import al.cherbourg_photographers.service.PhotographerService;
-import al.cherbourg_photographers.utils.PersonMapper;
-import al.cherbourg_photographers.utils.PhotographerMapper;
+import al.cherbourg_photographers.utils.GenericMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,23 +18,21 @@ import java.util.stream.Collectors;
 @Service
 public class PhotographerServiceImpl implements PhotographerService {
     private final PhotographerEntityRepository photographerEntityRepository;
-    private final PhotographerMapper photographerMapper;
-    private final PersonMapper personMapper;
+    private final GenericMapper mapper;
     private final PersonService personService;
 
-    public PhotographerServiceImpl(PhotographerEntityRepository photographerEntityRepository, PhotographerMapper photographerMapper, PersonMapper personMapper, PersonService personService) {
+    public PhotographerServiceImpl(PhotographerEntityRepository photographerEntityRepository, GenericMapper mapper, PersonService personService) {
         this.photographerEntityRepository = photographerEntityRepository;
-        this.photographerMapper = photographerMapper;
-        this.personMapper = personMapper;
+        this.mapper = mapper;
         this.personService = personService;
     }
 
     @Override
     public PhotographerDTO createPhotographer(PhotographerDTO photographerDTO) {
-        PhotographerEntity newPhotographerEntity = photographerMapper.mapToEntity(photographerDTO);
+        PhotographerEntity newPhotographerEntity = (PhotographerEntity) mapper.mapToEntity(photographerDTO, PhotographerEntity.class);
         newPhotographerEntity.setCreationDate(LocalDateTime.now());
         PhotographerEntity savedPhotographer = photographerEntityRepository.save(newPhotographerEntity);
-        return photographerMapper.mapToDTO(savedPhotographer);
+        return (PhotographerDTO) mapper.mapToDTO(savedPhotographer, PhotographerDTO.class);
     }
 
     @Override
@@ -88,7 +85,7 @@ public class PhotographerServiceImpl implements PhotographerService {
 
     @Override
     public PhotographerDTO updatePhotographer(PhotographerDTO photographerDTO, int id) {
-        PersonDTO updatedPerson = personService.updatePerson(personMapper.mapToPersonDTO(photographerDTO), id);
+        PersonDTO updatedPerson = personService.updatePerson( (PersonDTO) mapper.mapToDTO(photographerDTO, PersonDTO.class), id);
         PhotographerEntity photographerEntity = getPhotographerByIdInDB(id);
         photographerEntity.setStartDate(photographerDTO.getStartDate());
         photographerEntity.setEndDate(photographerDTO.getEndDate());

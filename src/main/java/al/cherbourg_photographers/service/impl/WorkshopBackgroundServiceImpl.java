@@ -5,7 +5,7 @@ import al.cherbourg_photographers.entity.WorkshopBackgroundEntity;
 import al.cherbourg_photographers.exception.ResourceNotFoundException;
 import al.cherbourg_photographers.repository.WorkshopBackgroundEntityRepository;
 import al.cherbourg_photographers.service.WorkshopBackgroundService;
-import al.cherbourg_photographers.utils.WorkshopBackgroundMapper;
+import al.cherbourg_photographers.utils.GenericMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,18 +13,18 @@ import java.util.List;
 @Service
 public class WorkshopBackgroundServiceImpl implements WorkshopBackgroundService {
     private final WorkshopBackgroundEntityRepository workshopBackgroundEntityRepository;
-    private final WorkshopBackgroundMapper mapper;
+    private final GenericMapper<WorkshopBackgroundEntity, WorkshopBackgroundDTO> mapper;
 
-    public WorkshopBackgroundServiceImpl(WorkshopBackgroundEntityRepository workshopBackgroundEntityRepository, WorkshopBackgroundMapper mapper) {
+    public WorkshopBackgroundServiceImpl(WorkshopBackgroundEntityRepository workshopBackgroundEntityRepository, GenericMapper<WorkshopBackgroundEntity, WorkshopBackgroundDTO> mapper) {
         this.workshopBackgroundEntityRepository = workshopBackgroundEntityRepository;
         this.mapper = mapper;
     }
 
     @Override
     public WorkshopBackgroundDTO createBackground(WorkshopBackgroundDTO workshopBackgroundDTO) {
-        WorkshopBackgroundEntity workshopBackgroundEntity = mapper.mapToWorkshopBackgroundEntity(workshopBackgroundDTO);
+        WorkshopBackgroundEntity workshopBackgroundEntity = mapper.mapToEntity(workshopBackgroundDTO, WorkshopBackgroundEntity.class);
         WorkshopBackgroundEntity newBackground = workshopBackgroundEntityRepository.save(workshopBackgroundEntity);
-        WorkshopBackgroundDTO backgroundResponse = mapper.mapToWorkshopBackgroundDTO(newBackground);
+        WorkshopBackgroundDTO backgroundResponse = mapper.mapToDTO(newBackground, WorkshopBackgroundDTO.class);
         return backgroundResponse;
     }
 
@@ -36,7 +36,7 @@ public class WorkshopBackgroundServiceImpl implements WorkshopBackgroundService 
     @Override
     public WorkshopBackgroundDTO getBackgroundById(int id) {
         WorkshopBackgroundEntity workshopBackgroundEntity = getWorkshopBackgroundByIdInDB(id);
-        return mapper.mapToWorkshopBackgroundDTO(workshopBackgroundEntity);
+        return mapper.mapToDTO(workshopBackgroundEntity, WorkshopBackgroundDTO.class);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class WorkshopBackgroundServiceImpl implements WorkshopBackgroundService 
         WorkshopBackgroundEntity workshopBackgroundEntity = getWorkshopBackgroundByIdInDB(id);
         workshopBackgroundEntity.setBackgroundDescription(workshopBackgroundDTO.getBackgroundDescription());
         WorkshopBackgroundEntity updateBackground = workshopBackgroundEntityRepository.save(workshopBackgroundEntity);
-        return mapper.mapToWorkshopBackgroundDTO(updateBackground);
+        return mapper.mapToDTO(updateBackground, WorkshopBackgroundDTO.class);
     }
 
     @Override

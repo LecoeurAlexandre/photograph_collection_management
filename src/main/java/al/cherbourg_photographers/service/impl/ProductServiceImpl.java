@@ -5,7 +5,7 @@ import al.cherbourg_photographers.entity.ProductEntity;
 import al.cherbourg_photographers.exception.ResourceNotFoundException;
 import al.cherbourg_photographers.repository.ProductEntityRepository;
 import al.cherbourg_photographers.service.ProductService;
-import al.cherbourg_photographers.utils.ProductMapper;
+import al.cherbourg_photographers.utils.GenericMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -15,32 +15,31 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductEntityRepository productEntityRepository;
-    private final ProductMapper mapper;
+    private final GenericMapper<ProductEntity, ProductDTO> mapper;
 
-    public ProductServiceImpl(ProductEntityRepository productEntityRepository, ProductMapper mapper) {
+    public ProductServiceImpl(ProductEntityRepository productEntityRepository, GenericMapper<ProductEntity, ProductDTO> mapper) {
         this.productEntityRepository = productEntityRepository;
         this.mapper = mapper;
     }
 
-
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
         productDTO.setProductName(StringUtils.capitalize(productDTO.getProductName()));
-        ProductEntity newProduct = productEntityRepository.save(mapper.mapToProductEntity(productDTO));
-        return mapper.mapToProductDTO(newProduct);
+        ProductEntity newProduct = productEntityRepository.save(mapper.mapToEntity(productDTO, ProductEntity.class));
+        return mapper.mapToDTO(newProduct, ProductDTO.class);
     }
 
     @Override
     public List<ProductDTO> getAllProducts() {
         List<ProductEntity> products = (List<ProductEntity>) productEntityRepository.findAll();
-        List<ProductDTO> productsDTOList = products.stream().map(view->mapper.mapToProductDTO(view)).collect(Collectors.toList());
+        List<ProductDTO> productsDTOList = products.stream().map(product->mapper.mapToDTO(product, ProductDTO.class)).collect(Collectors.toList());
         return productsDTOList;
     }
 
     @Override
     public ProductDTO getProductById(int id) {
         ProductEntity productEntity = getProductByIdInDB(id);
-        return mapper.mapToProductDTO(productEntity);
+        return mapper.mapToDTO(productEntity, ProductDTO.class);
     }
 
     @Override
@@ -49,7 +48,7 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = getProductByIdInDB(id);
         productEntity.setProductName(productDTO.getProductName());
         ProductEntity updatedProduct = productEntityRepository.save(productEntity);
-        return mapper.mapToProductDTO(updatedProduct);
+        return mapper.mapToDTO(updatedProduct, ProductDTO.class);
     }
 
     @Override

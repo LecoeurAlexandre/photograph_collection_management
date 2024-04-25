@@ -5,7 +5,7 @@ import al.cherbourg_photographers.entity.PersonEntity;
 import al.cherbourg_photographers.exception.ResourceNotFoundException;
 import al.cherbourg_photographers.repository.PersonEntityRepository;
 import al.cherbourg_photographers.service.PersonService;
-import al.cherbourg_photographers.utils.PersonMapper;
+import al.cherbourg_photographers.utils.GenericMapper;
 import al.cherbourg_photographers.utils.StringHandler;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 @Service
 public class PersonServiceImpl implements PersonService {
     private final PersonEntityRepository personEntityRepository;
-    private final PersonMapper mapper;
+    private final GenericMapper<PersonEntity, PersonDTO> mapper;
 
-    public PersonServiceImpl(PersonEntityRepository personEntityRepository, PersonMapper mapper) {
+    public PersonServiceImpl(PersonEntityRepository personEntityRepository, GenericMapper mapper) {
         this.personEntityRepository = personEntityRepository;
         this.mapper = mapper;
     }
@@ -27,24 +27,24 @@ public class PersonServiceImpl implements PersonService {
     public PersonDTO createPerson(PersonDTO personDTO) {
         capitalizePersonAttributes(personDTO);
 
-        PersonEntity newPerson = mapper.mapToPersonEntity(personDTO);
+        PersonEntity newPerson = mapper.mapToEntity(personDTO, PersonEntity.class);
         newPerson.setCreationDate(LocalDateTime.now());
 
         PersonEntity savedPerson = personEntityRepository.save(newPerson);
-        return mapper.mapToPersonDTO(savedPerson);
+        return mapper.mapToDTO(savedPerson, PersonDTO.class);
     }
 
     @Override
     public List<PersonDTO> getAllPersons() {
         List<PersonEntity> persons = (List<PersonEntity>) personEntityRepository.findAll();
-        List<PersonDTO> personsDTOList = persons.stream().map(person->mapper.mapToPersonDTO(person)).collect(Collectors.toList());
+        List<PersonDTO> personsDTOList = persons.stream().map(person-> mapper.mapToDTO(person, PersonDTO.class)).collect(Collectors.toList());
         return personsDTOList;
     }
 
     @Override
     public PersonDTO getPersonById(int id) {
         PersonEntity personEntity = getPersonByIdInDB(id);
-        return mapper.mapToPersonDTO(personEntity);
+        return mapper.mapToDTO(personEntity, PersonDTO.class);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class PersonServiceImpl implements PersonService {
         personEntity.setJob(personDTO.getJob());
         personEntity.setUpdateDate(LocalDateTime.now());
         PersonEntity updatedPerson = personEntityRepository.save(personEntity);
-        return mapper.mapToPersonDTO(updatedPerson);
+        return mapper.mapToDTO(updatedPerson, PersonDTO.class);
     }
 
     @Override

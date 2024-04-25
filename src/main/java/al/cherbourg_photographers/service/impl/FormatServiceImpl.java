@@ -5,18 +5,19 @@ import al.cherbourg_photographers.entity.FormatEntity;
 import al.cherbourg_photographers.exception.ResourceNotFoundException;
 import al.cherbourg_photographers.repository.FormatEntityRepository;
 import al.cherbourg_photographers.service.FormatService;
-import al.cherbourg_photographers.utils.FormatMapper;
+import al.cherbourg_photographers.utils.GenericMapper;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class FormatServiceImpl implements FormatService {
     private final FormatEntityRepository formatEntityRepository;
-    private final FormatMapper mapper;
+    private final GenericMapper<FormatEntity, FormatDTO> mapper;
 
-    public FormatServiceImpl(FormatEntityRepository formatEntityRepository, FormatMapper mapper) {
+    public FormatServiceImpl(FormatEntityRepository formatEntityRepository, GenericMapper mapper) {
         this.formatEntityRepository = formatEntityRepository;
         this.mapper = mapper;
     }
@@ -29,21 +30,22 @@ public class FormatServiceImpl implements FormatService {
         if (formatEntityRepository.existsByFormatSize(formatDTO.getFormatSize())) {
             throw new IllegalArgumentException("La taille de format spécifiée existe déjà.");
         }
-        FormatEntity newFormat = formatEntityRepository.save(mapper.mapToFormatEntity(formatDTO));
-        return mapper.mapToFormatDTO(newFormat);
+        FormatEntity newFormat = mapper.mapToEntity(formatDTO, FormatEntity.class);
+        FormatEntity savedFormat = formatEntityRepository.save(newFormat);
+        return mapper.mapToDTO(savedFormat, FormatDTO.class);
     }
 
     @Override
     public List<FormatDTO> getAllFormats() {
         List<FormatEntity> formats = (List<FormatEntity>)formatEntityRepository.findAll();
-        List<FormatDTO> formatsDTOList = formats.stream().map(format->mapper.mapToFormatDTO(format)).collect(Collectors.toList());
+        List<FormatDTO> formatsDTOList = formats.stream().map(format-> mapper.mapToDTO(format, FormatDTO.class)).collect(Collectors.toList());
         return formatsDTOList;
     }
 
     @Override
     public FormatDTO getFormatById(int id) {
         FormatEntity formatEntity = getFormatByIdInDB(id);
-        return mapper.mapToFormatDTO(formatEntity);
+        return mapper.mapToDTO(formatEntity, FormatDTO.class);
     }
 
     @Override
@@ -52,7 +54,7 @@ public class FormatServiceImpl implements FormatService {
         formatEntity.setFormatName(formatDTO.getFormatName());
         formatEntity.setFormatSize(formatDTO.getFormatSize());
         FormatEntity updateFormat = formatEntityRepository.save(formatEntity);
-        return mapper.mapToFormatDTO(updateFormat);
+        return mapper.mapToDTO(updateFormat, FormatDTO.class);
     }
 
     @Override
