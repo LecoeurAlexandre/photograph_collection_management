@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,4 +22,5 @@ public class PhotographerEntity extends PersonEntity {
 
     @Column(name = "date_fin", length = 20)
     private String endDate;
+
 }
