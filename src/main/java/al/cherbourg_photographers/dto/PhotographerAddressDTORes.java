@@ -22,5 +22,9 @@ public class PhotographerAddressDTORes {
 
     private String addressStartDate;
 
+    private boolean exactStartDate;
+
     private String addressEndDate;
+
+    private boolean exactEndStart;
 }
