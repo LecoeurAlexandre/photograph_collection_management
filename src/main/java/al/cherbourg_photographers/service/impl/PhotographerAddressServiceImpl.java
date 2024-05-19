@@ -1,12 +1,11 @@
 package al.cherbourg_photographers.service.impl;
 
-import al.cherbourg_photographers.dto.AddressDTO;
 import al.cherbourg_photographers.dto.PhotographerAddressDTOReq;
 import al.cherbourg_photographers.dto.PhotographerAddressDTORes;
-import al.cherbourg_photographers.dto.PhotographerDTO;
 import al.cherbourg_photographers.entity.AddressEntity;
 import al.cherbourg_photographers.entity.PhotographerAddressEntity;
 import al.cherbourg_photographers.entity.PhotographerEntity;
+import al.cherbourg_photographers.exception.InvalidDateRangeException;
 import al.cherbourg_photographers.repository.PhotographerAddressEntityRepository;
 import al.cherbourg_photographers.service.AddressService;
 import al.cherbourg_photographers.service.PhotographerAddressService;
@@ -32,6 +31,9 @@ public class PhotographerAddressServiceImpl implements PhotographerAddressServic
 
     @Override
     public PhotographerAddressDTORes createPhotographerAddress(PhotographerAddressDTOReq photographerAddressDTOReq) {
+        if (photographerAddressDTOReq.getAddressStartDate().isAfter(photographerAddressDTOReq.getAddressEndDate())) {
+            throw new InvalidDateRangeException("La date de début doit être inférieure la date de fin");
+        }
         PhotographerEntity photographer = (PhotographerEntity) mapper.mapToEntity(photographerService.getPhotographerById(photographerAddressDTOReq.getPhotographerId()), PhotographerEntity.class );
         AddressEntity address = (AddressEntity) mapper.mapToEntity(addressService.getAddressById(photographerAddressDTOReq.getAddressId()), AddressEntity.class );
         PhotographerAddressEntity photographerAddressEntity = PhotographerAddressEntity.builder()
